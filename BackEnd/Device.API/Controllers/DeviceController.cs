@@ -13,10 +13,25 @@ public class DeviceController : ControllerBase
     {
         _service = service;
     }
+
+    [HttpGet("{id}")]
+    public ActionResult<Models.Device> GetDeviceById(int id)
+    {
+        var device = _service.GetDeviceById(id);
+
+        if (device == null)
+            return NotFound();
+
+        return Ok(device);
+    }
     
-    [HttpGet]
+    [HttpGet("devices")]
     public ActionResult<List<Models.Device>> GetDevices()
     {
-        return Ok(_service.ListAllDevices());
+        var devices = _service.ListAllDevices();
+        if (!devices.Any())
+            return NoContent();
+        
+        return Ok(devices);
     }
 }

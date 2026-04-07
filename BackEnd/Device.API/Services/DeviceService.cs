@@ -11,8 +11,13 @@ public class DeviceService
         _context = context;
     }
 
+    public Models.Device GetDeviceById(int id)
+    {
+        return _context.Devices.FirstOrDefault(d => d.Id == id);
+    }
+
     public List<Models.Device> ListAllDevices()
     {
-        return new List<Models.Device>();
+        return _context.Devices.ToList();
     }
 }

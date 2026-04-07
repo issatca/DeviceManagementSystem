@@ -11,4 +11,5 @@ public class Device
     public string Processor { get; set; }
     public int RamAmount { get; set; }
     public string Description { get; set; }
+    public int UserID { get; set; }
 }
