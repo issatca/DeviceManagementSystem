@@ -1,6 +1,7 @@
 using Device.API.DbStorage;
 using Device.API.Services;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization; //*
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,11 +12,17 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var dbFolder = Path.Combine(builder.Environment.ContentRootPath, "..");
-var connectionString = $"Data Source={Path.Combine(dbFolder, "DeviceManagementSystem.sqlite")}";
+var connectionString = "Server=localhost\\SQLEXPRESS;Database=DeviceManagement;Trusted_Connection=True;TrustServerCertificate=True;";
+
+//so that the API won't use the enum underlying integer value
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 
 builder.Services.AddDbContext<DeviceManagementContext>(options =>
 {
-    options.UseSqlite(connectionString);
+    options.UseSqlServer(connectionString);
 });
 
 builder.Services.AddScoped<DeviceService>();

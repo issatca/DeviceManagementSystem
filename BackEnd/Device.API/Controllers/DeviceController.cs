@@ -1,4 +1,5 @@
 using Device.API.Services;
+using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Device.API.Controllers;
@@ -23,6 +24,29 @@ public class DeviceController : ControllerBase
             return NotFound();
 
         return Ok(device);
+    }
+
+    [HttpPost]
+    public void AddNewDevice(Models.Device device)
+    {
+        if (device == null)
+        {
+            throw new ArgumentNullException(nameof(device), "Device data cannot be null.");
+        }
+
+        _service.AddNewDevice(device);
+    }
+
+    [HttpDelete]
+    public void DeleteDeviceById(int id)
+    {
+        _service.DeleteDeviceById(id);
+    }
+
+    [HttpPut("{id}")]
+    public void UpdateDeviceById(int id, Models.Device device)
+    {
+        _service.UpdateDeviceById(id, device);
     }
     
     [HttpGet("devices")]

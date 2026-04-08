@@ -20,4 +20,34 @@ public class DeviceService
     {
         return _context.Devices.ToList();
     }
+
+    public void AddNewDevice(Models.Device device)
+    {
+        _context.Devices.Add((device));
+        _context.SaveChanges();
+    }
+
+    public void DeleteDeviceById(int id)
+    {
+        var device = _context.Devices.FirstOrDefault(d => d.Id == id);
+        _context.Remove(device);
+        _context.SaveChanges();
+    }
+
+    public void UpdateDeviceById(int id, Models.Device device)
+    {
+        var existingDevice = _context.Devices.FirstOrDefault(d => d.Id == id);
+        
+        existingDevice.Name = device.Name;
+        existingDevice.Manufacturer = device.Manufacturer;
+        existingDevice.Type = device.Type;
+        existingDevice.OperatingSystem = device.OperatingSystem;
+        existingDevice.OsVersion = device.OsVersion;
+        existingDevice.Processor = device.Processor;
+        existingDevice.RamAmount = device.RamAmount;
+        existingDevice.Description = device.Description;
+        existingDevice.UserID = device.UserID;
+
+        _context.SaveChanges();
+    }
 }
