@@ -37,7 +37,7 @@ public class DeviceController : ControllerBase
         _service.AddNewDevice(device);
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     public void DeleteDeviceById(int id)
     {
         _service.DeleteDeviceById(id);
