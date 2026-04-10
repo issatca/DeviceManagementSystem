@@ -26,6 +26,7 @@ builder.Services.AddDbContext<DeviceManagementContext>(options =>
 });
 
 builder.Services.AddScoped<DeviceService>();
+builder.Services.AddScoped<UserService>();
 
 var app = builder.Build();
 

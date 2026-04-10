@@ -30,7 +30,7 @@ public class DeviceService
     public void DeleteDeviceById(int id)
     {
         var device = _context.Devices.FirstOrDefault(d => d.Id == id);
-        _context.Remove(device);
+        _context.Devices.Remove(device);
         _context.SaveChanges();
     }
 
