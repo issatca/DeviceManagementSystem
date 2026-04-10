@@ -51,11 +51,13 @@ export class App implements OnInit {
 
   viewDetails(device: any)
   {
+    this.isEditMode = false;
     this.selectedDevice = { ...device };
   }
 
   createNew()
   {
+    this.isEditMode = true;
     this.selectedDevice = {
       id: 0,
       name: '',
@@ -91,16 +93,37 @@ export class App implements OnInit {
       return;
     }
 
-    this.deviceService.createDevice(d).subscribe({
-      next: (newDevice) => {
-        this.devices.push(newDevice);
-        this.loadDevices();
-        this.selectedDevice = null;
-        this.cdr.detectChanges();
-      },
-      error: (err) => console.error('Save failed:', err)
-    });
+    if (d.id > 0)
+    {
+      this.deviceService.updateDevice(d).subscribe({
+        next: () => {
+          alert("Update Successful!");
+          this.loadDevices();
+          this.selectedDevice = null;
+        }
+      });
+    }
+    else
+    {
+      this.deviceService.createDevice(d).subscribe({
+        next: (newDevice) => {
+          this.devices.push(newDevice);
+          this.loadDevices();
+          this.selectedDevice = null;
+          this.cdr.detectChanges();
+        },
+        error: (err) => console.error('Save failed:', err)
+      });
+    }
   }
+
+  isEditMode: boolean = false;
+
+  editDevice(device: any) {
+    this.isEditMode = true;
+    this.selectedDevice = { ...device };
+  }
+
 
   deleteDevice(id: number)
   {

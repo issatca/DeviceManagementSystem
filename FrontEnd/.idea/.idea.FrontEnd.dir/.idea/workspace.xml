@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="873e0fe8-5e2a-4ba3-805d-a6c74f797c58" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.FrontEnd.dir/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/device.service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/device.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/user.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BackEnd/Device.API/Controllers/DeviceController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BackEnd/Device.API/Controllers/DeviceController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BackEnd/Device.API/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../BackEnd/Device.API/Program.cs" afterDir="false" />
+    <list default="true" id="873e0fe8-5e2a-4ba3-805d-a6c74f797c58" name="Changes" comment="Adding device list, detailed view, adding device and delete device">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.FrontEnd.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FrontEnd.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/app.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/app.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/app.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,8 +67,17 @@
       <option name="presentableId" value="Default" />
       <updated>1775809942155</updated>
       <workItem from="1775809943917" duration="11000" />
-      <workItem from="1775810625426" duration="12607000" />
+      <workItem from="1775810625426" duration="14736000" />
     </task>
+    <task id="LOCAL-00001" summary="Adding device list, detailed view, adding device and delete device">
+      <option name="closed" value="true" />
+      <created>1775824512978</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1775824512978</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -80,6 +86,8 @@
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="Adding device list, detailed view, adding device and delete device" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adding device list, detailed view, adding device and delete device" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
