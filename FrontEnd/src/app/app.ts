@@ -85,7 +85,17 @@ export class App implements OnInit {
   private loadDevices() {
     this.deviceService.getDevices().subscribe({
       next: (data) => {
-        this.devices = [...data];
+        this.devices = data.map(device => {
+          let typeValue: any = device.type;
+
+          if (typeValue === 'Phone') typeValue = 0;
+          else if (typeValue === 'Tablet') typeValue = 1;
+
+          return {
+            ...device,
+            type: Number(typeValue)
+          };
+        });
         this.cdr.detectChanges();
       },
       error: (err) => console.error(err)
