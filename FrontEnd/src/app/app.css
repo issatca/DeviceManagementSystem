@@ -1,0 +1,217 @@
+:root {
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --bg-light: #f8faff;
+  --text-main: #1e293b;
+  --border-color: #e2e8f0;
+  --white: #ffffff;
+}
+
+.container {
+  padding: 40px 20px;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--bg-light);
+  min-height: 100vh;
+  color: var(--text-main);
+}
+
+h1 {
+  text-align: center;
+  color: #1e3a8a;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+.auth-card {
+  max-width: 400px;
+  margin: 60px auto;
+  background: var(--white);
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border-color);
+}
+
+.form-title {
+  margin-bottom: 20px;
+  color: #334155;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+}
+
+.form-group input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.auth-actions {
+  margin-top: 25px;
+  text-align: center;
+}
+
+.btn-auth-submit {
+  width: 100%;
+  background: var(--primary);
+  color: var(--white);
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-auth-submit:hover {
+  background: var(--primary-hover);
+}
+
+.auth-toggle-text {
+  margin-top: 15px;
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+.link {
+  color: var(--primary);
+  cursor: pointer;
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.user-header {
+  background: var(--white);
+  padding: 15px 25px;
+  border-radius: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid var(--border-color);
+  margin-bottom: 20px;
+}
+
+.btn-logout {
+  background: #f1f5f9;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-add-device {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.device-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+}
+
+.device-table th {
+  background: #f1f5f9;
+  padding: 15px;
+  text-align: left;
+  color: #475569;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+
+.device-table td {
+  padding: 15px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.action-cells button {
+  margin-right: 5px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.btn-view {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.btn-assign {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.btn-unassign {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.btn-edit {
+  background: #fef9c3;
+  color: #a16207;
+}
+
+.btn-delete {
+  background: transparent;
+  color: #ef4444;
+}
+
+.unassigned { color: #94a3b8;
+  font-style: italic;
+}
+
+.create-container {
+  border: 2px dashed var(--primary);
+  margin-bottom: 20px;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+}
+
+.action-bar {
+  display: block !important;
+  margin: 20px 0;
+  text-align: left;
+}
+
+.btn-add-device {
+  background-color: #2563eb !important;
+  color: white !important;
+  padding: 12px 24px !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-weight: bold !important;
+  cursor: pointer !important;
+  display: inline-block !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-add-device:hover {
+  background-color: #1d4ed8 !important;
+}

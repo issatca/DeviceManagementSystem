@@ -14,6 +14,16 @@ public class DeviceController : ControllerBase
     {
         _service = service;
     }
+    
+    [HttpGet("devices")]
+    public ActionResult<List<Models.Device>> GetDevices()
+    {
+        var devices = _service.ListAllDevices();
+        if (!devices.Any())
+            return NoContent();
+        
+        return Ok(devices);
+    }
 
     [HttpGet("{id}")]
     public ActionResult<Models.Device> GetDeviceById(int id)
@@ -36,26 +46,38 @@ public class DeviceController : ControllerBase
 
         _service.AddNewDevice(device);
     }
+    
+    [HttpPut("{id}")]
+    public void UpdateDeviceById(int id, Models.Device device)
+    {
+        _service.UpdateDeviceById(id, device);
+    }
 
     [HttpDelete("{id}")]
     public void DeleteDeviceById(int id)
     {
         _service.DeleteDeviceById(id);
     }
-
-    [HttpPut("{id}")]
-    public void UpdateDeviceById(int id, Models.Device device)
-    {
-        _service.UpdateDeviceById(id, device);
-    }
     
-    [HttpGet("devices")]
-    public ActionResult<List<Models.Device>> GetDevices()
+    [HttpPost("{deviceId}/assign/{userId}")]
+    public IActionResult Assign(int deviceId, int userId)
     {
-        var devices = _service.ListAllDevices();
-        if (!devices.Any())
-            return NoContent();
-        
-        return Ok(devices);
+        var success = _service.AssignDevice(deviceId, userId);
+    
+        if (!success)
+            return BadRequest("Device is already assigned or does not exist.");
+
+        return Ok("Device assigned successfully.");
+    }
+
+    [HttpPost("{deviceId}/unassign/{userId}")]
+    public IActionResult Unassign(int deviceId, int userId)
+    {
+        var success = _service.UnassignDevice(deviceId, userId);
+    
+        if (!success)
+            return BadRequest("You cannot unassign a device that is not yours.");
+
+        return Ok("Device unassigned successfully.");
     }
 }

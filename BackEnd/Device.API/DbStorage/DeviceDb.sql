@@ -12,6 +12,8 @@ BEGIN
     (
         id INT IDENTITY(1,1) PRIMARY KEY,
         name NVARCHAR(255) NOT NULL,
+        mail NVARCHAR(255) NOT NULL,
+        password NVARCHAR(255) NOT NULL,
         role NVARCHAR(100) NOT NULL,
         location NVARCHAR(100) NOT NULL
     );
@@ -31,7 +33,7 @@ CREATE TABLE Devices
     processor NVARCHAR(100) NOT NULL,
     ram_amount INT NOT NULL,
     description NVARCHAR(MAX) NOT NULL,
-    userID INT NOT NULL,
+    userID INT,
     CONSTRAINT fk_user FOREIGN KEY (userID) REFERENCES Users(id)
 );
 END

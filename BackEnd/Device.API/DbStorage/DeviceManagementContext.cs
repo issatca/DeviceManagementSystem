@@ -17,7 +17,5 @@ public class DeviceManagementContext : DbContext
         {
             entity.Property(e => e.Type).HasColumnName("type").HasConversion<string>();
         });
-
-        modelBuilder.Entity<Models.Device>().Property(p => p.Id).ValueGeneratedOnAdd();
     }
 }

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { DeviceService } from './device.service';
 import { FormsModule } from '@angular/forms';
 import { Device } from './device';
+import {User} from './user';
 
 @Component({
   selector: 'app-root',
@@ -14,19 +15,71 @@ import { Device } from './device';
 export class App implements OnInit {
   devices: any[] = [];
   users: any[] = [];
+  currentUser: User | null = null;
 
+  showLogin = true;
+  isRegistering = false;
+  loginData = { email: '', password: '' };
+  registerData = { name: '', mail: '', password: '', role: 'User', location: '' };
 
-  constructor(private deviceService: DeviceService, private cdr: ChangeDetectorRef) {
-  }
+  constructor(private deviceService: DeviceService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) {
+      this.currentUser = JSON.parse(savedUser);
+      this.showLogin = false;
+      this.loadInitialData();
+    }
+  }
+
+  loadInitialData() {
     this.deviceService.getUsers().subscribe({
       next: (userData) => {
-        this.users = [...userData];
+        this.users = userData;
+        console.log('Users loaded:', this.users.length);
         this.loadDevices();
       },
-      error: (err) => console.error(err)
+      error: (err) => {
+        console.error('Failed to load users, loading devices anyway:', err);
+        this.loadDevices();
+      }
     });
+  }
+
+  onLogin() {
+    this.deviceService.login({ email: this.loginData.email, password: this.loginData.password }).subscribe({
+      next: (user) => {
+        this.currentUser = user;
+        localStorage.setItem('user', JSON.stringify(user));
+        this.showLogin = false;
+        this.loadInitialData();
+      },
+      error: () => alert("Invalid Credentials")
+    });
+  }
+
+  onRegister() {
+    const d = this.registerData;
+    if (!d.name || !d.mail || !d.password || !d.location) {
+      alert("All fields are required for registration!");
+      return;
+    }
+
+    this.deviceService.register(d).subscribe({
+      next: () => {
+        alert("Registration successful!");
+        this.isRegistering = false;
+        this.registerData = { name: '', mail: '', password: '', role: 'User', location: '' };
+      },
+      error: (err) => alert("Registration failed: " + err.error)
+    });
+  }
+
+  logout() {
+    this.currentUser = null;
+    localStorage.removeItem('user');
+    this.showLogin = true;
   }
 
   private loadDevices() {
@@ -38,14 +91,19 @@ export class App implements OnInit {
       error: (err) => console.error(err)
     });
   }
-    getUserName(userID: number): string {
-      console.log('Searching for:', userID, 'Inside:', this.users);
-      if (!this.users || this.users.length === 0) return 'Loading...';
-
-      const user = this.users.find(u => u.id === userID);
-
-      return user ? user.name : 'Unknown User';
+  getUserName(userID: any): string {
+    if (userID === null || userID === undefined || userID === 0) {
+      return 'No user';
     }
+
+    const user = this.users.find(u => String(u.id) === String(userID));
+
+    if (user) {
+      return user.name;
+    }
+
+    return `ID: ${userID} (Not Found)`;
+  }
 
     selectedDevice: any = null;
 
@@ -68,51 +126,32 @@ export class App implements OnInit {
       processor: '',
       ramAmount: 0,
       description: '',
-      userID: this.users[0]?.id || 0
+      userID: null
     };
   }
 
-  saveDevice()
-  {
+  saveDevice() {
     const d = this.selectedDevice;
     if (!d) return;
 
-    console.log('Data to be saved:', d);
-
-    //validation - all fields should have values
-    if(!d.name || !d.manufacturer || !d.operatingSystem || !d.osVersion || !d.processor || d.ramAmount <= 0 || !d.description || d.userID <= 0)
-    {
-      alert("Please fill in all fields with valid values!");
-      return;
-    }
-
-    //validation - checking if item already exists by name
-    const exists = this.devices.some(dev => dev.name.toLowerCase() === d.name.toLowerCase() && dev.id !== d.id);
-    if (exists) {
-      alert("A device with this name already exists!");
-      return;
-    }
-
-    if (d.id > 0)
-    {
+    if (d.id > 0) {
       this.deviceService.updateDevice(d).subscribe({
-        next: () => {
-          alert("Update Successful!");
-          this.loadDevices();
-          this.selectedDevice = null;
-        }
-      });
-    }
-    else
-    {
-      this.deviceService.createDevice(d).subscribe({
-        next: (newDevice) => {
-          this.devices.push(newDevice);
-          this.loadDevices();
+        next: (updatedDevice) => {
+          const index = this.devices.findIndex(dev => dev.id === d.id);
+          if (index !== -1) {
+            this.devices[index] = { ...updatedDevice };
+          }
           this.selectedDevice = null;
           this.cdr.detectChanges();
-        },
-        error: (err) => console.error('Save failed:', err)
+        }
+      });
+    } else {
+      this.deviceService.createDevice(d).subscribe({
+        next: (newDevice) => {
+          this.devices = [...this.devices, newDevice];
+          this.selectedDevice = null;
+          this.cdr.detectChanges();
+        }
       });
     }
   }
@@ -136,6 +175,34 @@ export class App implements OnInit {
         }
       });
     }
+  }
+
+  assignToMe(deviceId: number) {
+    if (!this.currentUser) return;
+
+    this.deviceService.assignDevice(deviceId, this.currentUser.id).subscribe({
+      next: () => {
+        this.loadDevices();
+
+        const index = this.devices.findIndex(d => d.id === deviceId);
+        if (index !== -1) {
+          this.devices[index].userID = this.currentUser!.id;
+        }
+        this.cdr.detectChanges();
+      },
+      error: (err) => console.error(err)
+    });
+  }
+
+  unassignFromMe(deviceId: number) {
+    if (!this.currentUser) return;
+
+    this.deviceService.unassignDevice(deviceId, this.currentUser.id).subscribe({
+      next: () => {
+        this.loadDevices()
+      },
+      error: (err) => console.error(err)
+    });
   }
 }
 

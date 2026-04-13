@@ -15,5 +15,5 @@ export interface Device
   processor: string;
   ramAmount: number;
   description: string;
-  userID: number;
+  userID: number | null;
 }

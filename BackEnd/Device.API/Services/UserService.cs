@@ -1,3 +1,4 @@
+using BCrypt.Net;
 using Device.API.DbStorage;
 using Device.API.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -12,39 +13,27 @@ public class UserService
     {
         _context = context;
     }
-    
-    public ActionResult<User> GetUserById(int id)
-    {
-        return _context.Users.FirstOrDefault(u => u.Id == id);
-    }
 
-    public List<User> ListAllUsers()
-    {
-        return _context.Users.ToList();
-    }
-    
     public void AddNewUser(User user)
     {
+        user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+        
         _context.Users.Add(user);
         _context.SaveChanges();
     }
-
-    public void DeleteUserById(int id)
+    
+    public User? VerifyUser(string email, string password)
     {
-        var user = _context.Users.FirstOrDefault(u => u.Id == id);
-        _context.Users.Remove(user);
+        var user = _context.Users.FirstOrDefault(u => u.Mail == email);
+        if (user == null) return null;
+
+        bool isValid = BCrypt.Net.BCrypt.Verify(password, user.Password);
         
-        _context.SaveChanges();
+        return isValid ? user : null;
     }
-
-    public void UpdateUserById(int id, User user)
+    
+    public List<User> ListAllUsers()
     {
-        var existingUser = _context.Users.FirstOrDefault(u => u.Id == id);
-
-        existingUser.Name = user.Name;
-        existingUser.Role = user.Role;
-        existingUser.Location = user.Location;
-
-        _context.SaveChanges();
+        return _context.Users.ToList();
     }
 }

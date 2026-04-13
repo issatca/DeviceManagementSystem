@@ -50,4 +50,32 @@ public class DeviceService
 
         _context.SaveChanges();
     }
+    
+    public bool AssignDevice(int deviceId, int userId)
+    {
+        var device = _context.Devices.FirstOrDefault(d => d.Id == deviceId);
+    
+        if (device == null || (device.UserID != null && device.UserID != 0))
+        {
+            return false; 
+        }
+
+        device.UserID = userId;
+        _context.SaveChanges();
+        return true;
+    }
+
+    public bool UnassignDevice(int deviceId, int userId)
+    {
+        var device = _context.Devices.FirstOrDefault(d => d.Id == deviceId);
+    
+        if (device == null || device.UserID != userId)
+        {
+            return false;
+        }
+
+        device.UserID = null;
+        _context.SaveChanges();
+        return true;
+    }
 }

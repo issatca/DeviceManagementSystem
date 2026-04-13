@@ -15,17 +15,25 @@ public class UserController : ControllerBase
     {
         _service = service;
     }
-
-    [HttpGet("{id}")]
-    public ActionResult<User> GetUserById(int id)
+    
+    [HttpPost]
+    public void AddNewUser(User user)
     {
-        var user = _service.GetUserById(id);
+        _service.AddNewUser(user);
+    }
+    
+    [HttpPost("login")]
+    public IActionResult Login([FromBody] LoginRequest request)
+    {
+        var user = _service.VerifyUser(request.Email, request.Password);
 
         if (user == null)
-            return NotFound();
-        return user;
-    }
+            return Unauthorized("Invalid email or password.");
 
+        user.Password = null; 
+        return Ok(user);
+    }
+    
     [HttpGet("users")]
     public ActionResult<List<User>> GetUsers()
     {
@@ -34,23 +42,5 @@ public class UserController : ControllerBase
             return NoContent();
         
         return users;
-    }
-
-    [HttpPost]
-    public void AddNewUser(User user)
-    {
-        _service.AddNewUser(user);
-    }
-
-    [HttpDelete]
-    public void DeleteUserById(int id)
-    {
-        _service.DeleteUserById(id);
-    }
-
-    [HttpPut("{id}")]
-    public void UpdateUserById(int id, User user)
-    {
-        _service.UpdateUserById(id, user);
     }
 }
